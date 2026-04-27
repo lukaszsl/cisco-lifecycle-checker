@@ -1,8 +1,8 @@
 # Dependency directories
 node_modules/
 
-# Package lock files
-package-lock.json
+# Environment variables
+.env
 
 # OS-specific files
 .DS_Store
