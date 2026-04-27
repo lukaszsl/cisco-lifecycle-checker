@@ -1,0 +1,12 @@
+# Dependency directories
+node_modules/
+
+# Package lock files
+package-lock.json
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor settings
+.vscode/
