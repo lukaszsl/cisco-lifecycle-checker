@@ -1,38 +1,35 @@
-/* --------------------------
+/* =========================
+   INITIAL EXPRESS CONFIG
+========================= */
 
-   INITIAL EXPRESS CONFIG  
-
--------------------------- */
 require("dotenv").config();
 
 const express = require("express");
-const app = express();
+const lifecycleService = require("./services/lifecycleService");
 
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-// set EJS as template engine
-
+// Set EJS as the template engine for rendering views
 app.set("view engine", "ejs");
 
-// // parse URL-encoded form data so submitted form fields are available in req.body
-
+// Parse URL-encoded form data so submitted form fields are available in req.body
 app.use(express.urlencoded({ extended: true }));
 
-// basic route
-
+// Render the home page with the device check form
 app.get("/", (req, res) => {
   res.render("index");
 });
 
-// handle submitted device check form and read user input from req.body
-
+// Handle submitted device check form and return lifecycle data for the given PID
 app.post("/check", (req, res) => {
-    console.log(req.body); // TODO: Remove in the final stage
-    res.send(`You entered PID: ${req.body.pid}`);
+    const { pid } = req.body;
+    const result = lifecycleService.getLifecycleInfo(pid);
+
+    res.send(result);
 });
 
-// start server
-
+// Start the Express server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
