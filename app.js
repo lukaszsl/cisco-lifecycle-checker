@@ -21,10 +21,10 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-// Handle submitted device check form and return lifecycle data for the given PID
+// Handle submitted device check form and render lifecycle/software result
 app.post("/check", (req, res) => {
-    const { pid } = req.body;
-    const result = lifecycleService.getLifecycleInfo(pid);
+    const { pid, version } = req.body;
+    const result = lifecycleService.getLifecycleInfo(pid, version);
 
     res.render("result", { result });
 });

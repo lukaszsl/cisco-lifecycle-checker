@@ -16,6 +16,8 @@
       <p><strong>Lifecycle status:</strong> <%= result.lifecycle_status %></p>
       <p><strong>End of sale:</strong> <%= result.end_of_sale %></p>
       <p><strong>End of support:</strong> <%= result.end_of_support %></p>
+      <p><strong>Installed version:</strong> <%= result.installed_version || "Not provided" %></p>
+      <p><strong>Suggested release:</strong> <%= result.suggested_release || "Unavailable" %></p>
     <% } %>
 
     <a href="/">Check another device</a>

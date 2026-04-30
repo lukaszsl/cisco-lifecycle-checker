@@ -1,11 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
-// Retrieve EoX (End-of-Life) data for a given PID from local mock JSON files
-function getEoxData(pid) {
+// Read and parse JSON mock data from a specific mock data categor
+function readMockData(category, pid) {
     try {
         // Build absolute path to the JSON file (safe across OS)
-        const filePath = path.join(__dirname, "../mock_data/eox", `${pid}.json`);
+        const filePath = path.join(__dirname, "../mock_data", category, `${pid}.json`);
 
         // Read file content as string
         const data = fs.readFileSync(filePath, "utf-8");
@@ -14,9 +14,19 @@ function getEoxData(pid) {
         return JSON.parse(data);
     } catch (err) {
         // Return null if file does not exist or parsing fails
-        console.error("Error reading EoX data: ", err.message);
+        console.error(`Error reading ${category} data: `, err.message);
         return null;
     }
 }
 
-module.exports = { getEoxData };
+// Retrieve EoX (End-of-Life) data for a given PID from local mock JSON files
+function getEoxData(pid) {
+    return readMockData("eox", pid);
+}
+
+// Retrieve suggested software data for a given PID from local mock JSON files
+function getSoftwareData(pid) {
+    return readMockData("software", pid);
+}
+
+module.exports = { getEoxData, getSoftwareData };
