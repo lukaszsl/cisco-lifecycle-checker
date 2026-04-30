@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lifecycle Result</title>
+  </head>
+  <body>
+    <h1>Lifecycle Check Result</h1>
+
+    <% if (result.error) { %>
+      <p><strong>Error:</strong> <%= result.error %></p>
+    <% } else { %>
+      <p><strong>PID:</strong> <%= result.pid %></p>
+      <p><strong>Product name:</strong> <%= result.product_name %></p>
+      <p><strong>Lifecycle status:</strong> <%= result.lifecycle_status %></p>
+      <p><strong>End of sale:</strong> <%= result.end_of_sale %></p>
+      <p><strong>End of support:</strong> <%= result.end_of_support %></p>
+    <% } %>
+
+    <a href="/">Check another device</a>
+  </body>
+</html>

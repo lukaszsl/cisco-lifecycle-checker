@@ -26,7 +26,7 @@ app.post("/check", (req, res) => {
     const { pid } = req.body;
     const result = lifecycleService.getLifecycleInfo(pid);
 
-    res.send(result);
+    res.render("result", { result });
 });
 
 // Start the Express server
