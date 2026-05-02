@@ -2,19 +2,27 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name=""viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/styles.css" />
         <title>Cisco Lifecycle Checker</title>
     </head>
     <body>
-        <h1>Cisco Lifecycle Checker</h1>
-
+        <header>
+            <h1>Cisco Lifecycle Checker</h1>
+        </header>
+        <main class="container">
         <form method="POST" action="/check">
-            <label for="pid">Cisco PID</label>
-            <input name="pid" placeholder="Enter PID" required />
-            <label for="version">Installed version</label>
-            <input name="version" placeholder="Installed version (optional)" />
-
+            <div class="field">
+                <label for="pid">Cisco PID</label>
+                <input id="pid" name="pid" placeholder="Enter PID" required />
+            </div>
+            <div class="field">
+                <label for="version">Installed version</label>
+                <input id="version" name="version" placeholder="Installed version (optional)" />
+            </div>
+            
             <button type="submit">Check</button>
         </form>
+        </main>
     </body>
 </html>

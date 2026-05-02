@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-// Read and parse JSON mock data from a specific mock data categor
+// Read and parse JSON mock data from a specific mock data category
 function readMockData(category, pid) {
     try {
         // Build absolute path to the JSON file (safe across OS)

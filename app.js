@@ -13,6 +13,9 @@ const PORT = process.env.PORT || 3000;
 // Set EJS as the template engine for rendering views
 app.set("view engine", "ejs");
 
+// Serve static assets from the public folder
+app.use(express.static("public"));
+
 // Parse URL-encoded form data so submitted form fields are available in req.body
 app.use(express.urlencoded({ extended: true }));
 
