@@ -49,9 +49,13 @@ The application follows a simple layered structure:
 ## API (in progress)
 
 Planned endpoint:
+```http
 GET /api/lifecycle?pid=<PID>&version=<VERSION>
+```
 Example:
+```http
 GET /api/lifecycle?pid=C9200L-24P-4G&version=17.6
+```
 Returns JSON with lifecycle data and version status.
 
 ## How to run
