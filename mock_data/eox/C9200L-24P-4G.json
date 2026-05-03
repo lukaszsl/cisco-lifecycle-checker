@@ -1,7 +1,7 @@
 {
-  "pid": "C9200L-24P-4G",
-  "product_name": "Cisco Catalyst 9200L",
-  "lifecycle_status": "Active",
-  "end_of_sale": "2028-01-01",
-  "end_of_support": "2030-01-01"
+    "pid": "C9200L-24P-4G",
+    "product_name": "Cisco Catalyst 9200L",
+    "lifecycle_status": "Active",
+    "end_of_sale": "2028-01-01",
+    "end_of_support": "2030-01-01"
 }

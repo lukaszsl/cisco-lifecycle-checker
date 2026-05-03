@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Render the home page with the device check form
 app.get("/", (req, res) => {
-  res.render("index");
+	res.render("index");
 });
 
 // Handle submitted device check form and render lifecycle/software result
@@ -34,5 +34,5 @@ app.post("/check", (req, res) => {
 
 // Start the Express server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+	console.log(`Server running on http://localhost:${PORT}`);
 });
