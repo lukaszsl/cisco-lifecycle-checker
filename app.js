@@ -19,6 +19,11 @@ app.use(express.static("public"));
 // Parse URL-encoded form data so submitted form fields are available in req.body
 app.use(express.urlencoded({ extended: true }));
 
+
+/* =========================
+   HTTP ENDPOINTS
+========================= */
+
 // Render the home page with the device check form
 app.get("/", (req, res) => {
 	res.render("index");
@@ -31,6 +36,33 @@ app.post("/check", (req, res) => {
 
     res.render("result", { result });
 });
+
+
+/* =========================
+   API ENDPOINTS
+========================= */
+
+// Return lifecycle/software result as JSON for API clients
+app.get("/api/lifecycle", (req, res) => {
+	const { pid, version } = req.query;
+	
+	if (!pid) {
+		return res.status(400).json({ error: "PID is required" });
+	}
+
+	const result = lifecycleService.getLifecycleInfo(pid, version);
+
+	if (result.error) {
+		return res.status(404).json(result);
+	}
+
+	return res.json(result);
+});
+
+
+/* =========================
+   EXPRESS SERVER
+========================= */
 
 // Start the Express server
 app.listen(PORT, () => {
