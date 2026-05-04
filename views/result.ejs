@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles.css" />
-    <title>Lifecycle Result</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="/styles.css" />
+		<title>Lifecycle Result</title>
 	</head>
 	<body>
 		<header>
@@ -14,16 +14,18 @@
 		<% if (result.error) { %>
 			<p><strong>Error:</strong> <%= result.error %></p>
 		<% } else { %>
-			<p><strong>PID: </strong> <%= result.pid %></p>
-			<p><strong>Product name: </strong> <%= result.product_name %></p>
-			<p><strong>Lifecycle status: </strong> <%= result.lifecycle_status %></p>
-			<p><strong>End of sale: </strong> <%= result.end_of_sale %></p>
-			<p><strong>End of support: </strong> <%= result.end_of_support %></p>
-			<p><strong>Installed version: </strong> <%= result.installed_version || "Not provided" %></p>
-			<p><strong>Suggested release: </strong> <%= result.suggested_release || "Unavailable" %></p>
-			<p><strong>Version status: </strong>
-			<span class="<%= result.version_status === 'UP TO DATE' ? 'status-up-to-date' :
-				result.version_status === 'OUTDATED' ? 'status-outdated' : 'status-unknown' %>">
+			<p><strong>PID:</strong> <%= result.pid %></p>
+			<p><strong>Product name:</strong> <%= result.product_name %></p>
+			<p><strong>Lifecycle status:</strong> <%= result.lifecycle_status %></p>
+			<p><strong>End of sale:</strong> <%= result.end_of_sale %></p>
+			<p><strong>End of support:</strong> <%= result.end_of_support %></p>
+			<p><strong>Installed version:</strong> <%= result.installed_version || "Not provided" %></p>
+			<p><strong>Suggested release:</strong> <%= result.suggested_release || "Unavailable" %></p>
+			<p><strong>Version status:</strong> 
+			<span class="status <%= 
+				result.version_status === 'UP TO DATE' ? 'status-up-to-date' :
+				result.version_status === 'OUTDATED' ? 'status-outdated' :
+				result.version_status === 'NEWER THAN SUGGESTED' ? 'status-newer' : 'status-unknown' %>">
 				<%= result.version_status %>
 			</span>
 			</p>

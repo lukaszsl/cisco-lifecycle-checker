@@ -24,6 +24,10 @@ button {
     margin-bottom: 10px;
 }
 
+.status {
+    font-weight: bold;
+}
+
 .status-up-to-date {
     color: green;
 }
@@ -32,12 +36,10 @@ button {
     color: red;
 }
 
-.status-unknown {
-    color: gray;
+.status-newer {
+    color: orange;
 }
 
-.status-up-to-date,
-.status-outdated,
 .status-unknown {
-    font-weight: bold;
+    color: gray;
 }
