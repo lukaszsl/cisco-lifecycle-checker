@@ -30,11 +30,27 @@ function evaluateVersionStatus(installedVersion, suggestedRelease) {
     return "NEWER THAN SUGGESTED";
 }
 
+// Validate PID input before using it for mock data lookup
+function validatePid(pid) {
+    if (!pid || !pid.trim()) return "PID is required";
+
+    const normalizedPid = pid.trim().toUpperCase();
+
+    if (!/^[A-Z0-9-]+$/.test(normalizedPid)) return "PID can only contain letters, numbers, and hyphens";
+
+    return null;
+}
+
 // Retrieve lifecycle information for a given device PID
 function getLifecycleInfo(pid, installedVersion) {
+
+    const validationError = validatePid(pid);
+
+    if (validationError) return { error: validationError };
+
     // Normalize user input to match file naming convention (trim spaces, uppercase)
     const normalizedPid = pid.trim().toUpperCase();
-    
+
     // Fetch EoX and software data from repository (data layer)
     const eoxData = repository.getEoxData(normalizedPid);
     const softwareData = repository.getSoftwareData(normalizedPid);
@@ -45,7 +61,7 @@ function getLifecycleInfo(pid, installedVersion) {
     }
 
     // Prepare clean values for response and evaluation
-    const cleanInstalledVersion = installedVersion || null;
+    const cleanInstalledVersion = installedVersion?.trim() || null;
     const suggestedRelease = softwareData?.suggested_release || null;
     const versionStatus = evaluateVersionStatus(cleanInstalledVersion, suggestedRelease);
     

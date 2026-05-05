@@ -43,16 +43,18 @@ app.post("/check", (req, res) => {
 ========================= */
 
 // Return lifecycle/software result as JSON for API clients
+// - 400: validation errors (missing or invalid PID)
+// - 404: valid request but device not found
+// - 200: successful response with lifecycle data
 app.get("/api/lifecycle", (req, res) => {
 	const { pid, version } = req.query;
-	
-	if (!pid) {
-		return res.status(400).json({ error: "PID is required" });
-	}
-
 	const result = lifecycleService.getLifecycleInfo(pid, version);
-
+	
 	if (result.error) {
+		if (result.error === "PID is required" || result.error.includes("PID can only")) {
+			return res.status(400).json(result);
+		}
+
 		return res.status(404).json(result);
 	}
 
