@@ -1,5 +1,5 @@
-const express = require("express");
-const lifecycleService = require("../services/lifecycleService");
+import express from "express";
+import lifecycleService from "../services/lifecycleService.js";
 
 // Web routes for rendering lifecycle views
 const router = express.Router();
@@ -26,4 +26,4 @@ router.post("/check", (req, res) => {
     res.render("result", { result });
 });
 
-module.exports = router;
+export default router;

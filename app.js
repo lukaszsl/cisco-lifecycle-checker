@@ -2,11 +2,11 @@
    INITIAL EXPRESS CONFIG
 ========================= */
 
-require("dotenv").config();
+import "dotenv/config";
 
-const express = require("express");
-const apiRoutes = require("./routes/apiRoutes");
-const webRoutes = require("./routes/webRoutes");
+import express from "express";
+import apiRoutes from "./routes/apiRoutes.js";
+import webRoutes from "./routes/webRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;

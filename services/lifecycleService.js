@@ -1,4 +1,4 @@
-const repository = require("../repositories/mockRepository");
+import repository from "../repositories/mockRepository.js";
 
 // Compare two dot-separated version strings numerically
 function compareVersions(installedVersion, suggestedRelease) {
@@ -74,4 +74,4 @@ function getLifecycleInfo(pid, installedVersion) {
     };
 }
 
-module.exports = { getLifecycleInfo };
+export default { getLifecycleInfo };

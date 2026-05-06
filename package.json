@@ -1,6 +1,7 @@
 {
   "name": "cisco-lifecycle-checker",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "app.js",
   "scripts": {
@@ -10,7 +11,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
     "dotenv": "^17.4.2",
     "ejs": "^5.0.2",

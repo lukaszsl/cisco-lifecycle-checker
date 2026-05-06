@@ -1,10 +1,14 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Read and parse JSON mock data from a specific mock data category
 function readMockData(category, pid) {
     try {
-        // Build absolute path to the JSON file (safe across OS)
+        // Build absolute path to the JSON file
         const filePath = path.join(__dirname, "../mock_data", category, `${pid}.json`);
 
         // Read file content as string
@@ -19,14 +23,14 @@ function readMockData(category, pid) {
     }
 }
 
-// Retrieve EoX (End-of-Life) data for a given PID from local mock JSON files
+// Retrieve EoX (End-of-Life) data for a given PID
 function getEoxData(pid) {
     return readMockData("eox", pid);
 }
 
-// Retrieve suggested software data for a given PID from local mock JSON files
+// Retrieve suggested software data for a given PID
 function getSoftwareData(pid) {
     return readMockData("software", pid);
 }
 
-module.exports = { getEoxData, getSoftwareData };
+export default { getEoxData, getSoftwareData };

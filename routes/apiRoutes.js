@@ -1,5 +1,5 @@
-const express = require("express");
-const lifecycleService = require("../services/lifecycleService");
+import express from "express";
+import lifecycleService from "../services/lifecycleService.js";
 
 // API routes for lifecycle lookup and JSON responses
 const router = express.Router();
@@ -30,4 +30,4 @@ router.get("/lifecycle", (req, res) => {
     return res.json(result);
 });
 
-module.exports = router;
+export default router;
