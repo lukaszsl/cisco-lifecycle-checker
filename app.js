@@ -32,7 +32,16 @@ app.get("/", (req, res) => {
 // Handle submitted device check form and render lifecycle/software result
 app.post("/check", (req, res) => {
     const { pid, version } = req.body;
+
+	console.log(`[WEB] Lifecycle check submitted for PID: ${pid || "missing"}`);
+
     const result = lifecycleService.getLifecycleInfo(pid, version);
+
+	if (result.error) {
+		console.warn(`[WEB] Lifecycle check failed: ${result.error}`);
+	} else {
+		console.log(`[WEB] Lifecycle check completed for PID: ${result.pid}`);
+	}
 
     res.render("result", { result });
 });
@@ -48,15 +57,22 @@ app.post("/check", (req, res) => {
 // - 200: successful response with lifecycle data
 app.get("/api/lifecycle", (req, res) => {
 	const { pid, version } = req.query;
+
+	console.log(`[API] Lifecycle check requested for PID: ${pid || "missing"}`);
+
 	const result = lifecycleService.getLifecycleInfo(pid, version);
 	
 	if (result.error) {
+		console.warn(`[API] Lifecycle check failed: ${result.error}`);
+
 		if (result.error === "PID is required" || result.error.includes("PID can only")) {
 			return res.status(400).json(result);
 		}
 
 		return res.status(404).json(result);
 	}
+
+	console.log(`[API] Lifecycle check completed for PID: ${result.pid}`);
 
 	return res.json(result);
 });
