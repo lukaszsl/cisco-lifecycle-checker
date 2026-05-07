@@ -10,12 +10,12 @@ router.get("/", (req, res) => {
 });
 
 // Handle submitted device check form and render lifecycle/software result
-router.post("/check", (req, res) => {
+router.post("/check", async (req, res) => {
     const { pid, version } = req.body;
 
     console.log(`[WEB] Lifecycle check submitted for PID: ${pid || "missing"}`);
 
-    const result = lifecycleService.getLifecycleInfo(pid, version);
+    const result = await lifecycleService.getLifecycleInfo(pid, version);
 
     if (result.error) {
         console.warn(`[WEB] Lifecycle check failed: ${result.error}`);

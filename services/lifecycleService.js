@@ -1,4 +1,5 @@
 import repository from "../repositories/mockRepository.js";
+import historyRepository from "../repositories/historyRepository.js";
 
 // Compare two dot-separated version strings numerically
 function compareVersions(installedVersion, suggestedRelease) {
@@ -42,7 +43,7 @@ function validatePid(pid) {
 }
 
 // Retrieve lifecycle information for a given device PID
-function getLifecycleInfo(pid, installedVersion) {
+async function getLifecycleInfo(pid, installedVersion) {
 
     const validationError = validatePid(pid);
 
@@ -66,12 +67,16 @@ function getLifecycleInfo(pid, installedVersion) {
     const versionStatus = evaluateVersionStatus(cleanInstalledVersion, suggestedRelease);
     
     // Combine lifecycle, software, and evaluation data into one response object
-    return {
+    const result = {
         ...eoxData,
         installed_version: cleanInstalledVersion,
         suggested_release: suggestedRelease,
         version_status: versionStatus
     };
+
+    await historyRepository.saveCheck(result);
+
+    return result;
 }
 
 export default { getLifecycleInfo };

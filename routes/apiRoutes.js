@@ -8,12 +8,12 @@ const router = express.Router();
 // - 400: validation errors (missing or invalid PID)
 // - 404: valid request but device not found
 // - 200: successful response with lifecycle data
-router.get("/lifecycle", (req, res) => {
+router.get("/lifecycle", async (req, res) => {
     const { pid, version } = req.query;
 
     console.log(`[API] Lifecycle check requested for PID: ${pid || "missing"}`);
 
-    const result = lifecycleService.getLifecycleInfo(pid, version);
+    const result = await lifecycleService.getLifecycleInfo(pid, version);
     
     if (result.error) {
         console.warn(`[API] Lifecycle check failed: ${result.error}`);
