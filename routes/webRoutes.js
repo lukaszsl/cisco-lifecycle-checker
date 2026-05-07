@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
     res.render("index");
 });
 
-// Handle submitted device check form and render lifecycle/software result
+// Handle submitted lifecycle check and render result view
 router.post("/check", async (req, res) => {
     const { pid, version } = req.body;
 

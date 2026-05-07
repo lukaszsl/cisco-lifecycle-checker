@@ -37,36 +37,32 @@ function validatePid(pid) {
 
     const normalizedPid = pid.trim().toUpperCase();
 
-    if (!/^[A-Z0-9-]+$/.test(normalizedPid)) return "PID can only contain letters, numbers, and hyphens";
+    if (!/^[A-Z0-9-]+$/.test(normalizedPid)) {
+        return "PID can only contain letters, numbers, and hyphens";
+    }
 
     return null;
 }
 
-// Retrieve lifecycle information for a given device PID
+// Build lifecycle result, evaluate software status, and persist successful checks
 async function getLifecycleInfo(pid, installedVersion) {
-
     const validationError = validatePid(pid);
 
     if (validationError) return { error: validationError };
 
-    // Normalize user input to match file naming convention (trim spaces, uppercase)
     const normalizedPid = pid.trim().toUpperCase();
 
-    // Fetch EoX and software data from repository (data layer)
     const eoxData = repository.getEoxData(normalizedPid);
     const softwareData = repository.getSoftwareData(normalizedPid);
 
-    // Handle case where device is not found in mock data
     if (!eoxData) {
         return { error: "Device not found" };
     }
 
-    // Prepare clean values for response and evaluation
     const cleanInstalledVersion = installedVersion?.trim() || null;
     const suggestedRelease = softwareData?.suggested_release || null;
     const versionStatus = evaluateVersionStatus(cleanInstalledVersion, suggestedRelease);
     
-    // Combine lifecycle, software, and evaluation data into one response object
     const result = {
         ...eoxData,
         installed_version: cleanInstalledVersion,
@@ -79,4 +75,8 @@ async function getLifecycleInfo(pid, installedVersion) {
     return result;
 }
 
-export default { getLifecycleInfo };
+async function getCheckHistory() {
+    return historyRepository.getHistory();
+}
+
+export default { getLifecycleInfo, getCheckHistory };

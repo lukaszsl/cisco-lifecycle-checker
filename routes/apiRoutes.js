@@ -30,4 +30,13 @@ router.get("/lifecycle", async (req, res) => {
     return res.json(result);
 });
 
+// Return saved lifecycle check history as JSON
+router.get("/history", async (req, res) => {
+    console.log("[API] Lifecycle history requested");
+
+    const history = await lifecycleService.getCheckHistory();
+
+    return res.json(history);
+});
+
 export default router;

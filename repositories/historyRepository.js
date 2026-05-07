@@ -1,8 +1,10 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 
+// Shared SQLite database connection
 let db;
 
+// Initialize SQLite database and create tables if needed
 async function getDb() {
     if (!db) {
         db = await open({
@@ -29,6 +31,7 @@ async function getDb() {
     return db;
 }
 
+// Persist a successful lifecycle check in SQLite
 async function saveCheck(result) {
     const database = await getDb();
 
@@ -43,8 +46,8 @@ async function saveCheck(result) {
             suggested_release,
             version_status,
             checked_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `,
+        ) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
             result.pid,
             result.product_name,
@@ -59,4 +62,15 @@ async function saveCheck(result) {
     );
 }
 
-export default { saveCheck };
+// Retrieve previously saved lifecycle checks ordered by newest first
+async function getHistory() {
+    const database = await getDb();
+
+    return database.all(`
+        SELECT *
+        FROM checks
+        ORDER BY checked_at DESC
+    `);
+}
+
+export default { saveCheck, getHistory };
