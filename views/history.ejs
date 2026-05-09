@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/styles.css" />
+        <title>Lifecycle History</title>
+    </head>
+    <body>
+        <header>
+            <h1>Lifecycle Check History</h1>
+        </header>
+
+        <main class="container">
+            <% if (history.length === 0) { %>
+                <p>No lifecycle checks saved yet.</p>
+            <% } else { %>
+                <table>
+                    <caption>Previously saved lifecycle checks</caption>
+                    <thead>
+                        <tr>
+                            <th>PID</th>
+                            <th>Installed Version</th>
+                            <th>Suggested Release</th>
+                            <th>Status</th>
+                            <th>Checked At</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% history.forEach((check) => { %>
+                            <tr>
+                                <td><%= check.pid %></td>
+                                <td><%= check.installed_version || "N/A" %></td>
+                                <td><%= check.suggested_release || "N/A" %></td>
+
+                                <td class="status <%= 
+                                    check.version_status === 'UP TO DATE' ? 'status-up-to-date' :
+                                    check.version_status === 'OUTDATED' ? 'status-outdated' :
+                                    check.version_status === 'NEWER THAN SUGGESTED' ? 'status-newer' :
+                                    'status-unknown'
+                                %>">
+                                    <%= check.version_status %>
+                                </td>
+
+                                <td><%= check.checked_at %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+
+            <p>
+                <a href="/">Back to lifecycle checker</a>
+            </p>
+        </main>
+    </body>
+</html>

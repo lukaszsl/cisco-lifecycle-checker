@@ -26,4 +26,13 @@ router.post("/check", async (req, res) => {
     res.render("result", { result });
 });
 
+// Render page with previously saved lifecycle checks
+router.get("/history", async (req, res) => {
+    console.log("[WEB] Lifecycle history page requested");
+
+    const history = await lifecycleService.getCheckHistory();
+
+    res.render("history", { history });
+});
+
 export default router;
