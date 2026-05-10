@@ -34,7 +34,11 @@ router.get("/lifecycle", async (req, res) => {
 router.get("/history", async (req, res) => {
     console.log("[API] Lifecycle history requested");
 
-    const history = await lifecycleService.getCheckHistory();
+    const parsedLimit = Number(req.query.limit);
+    const limit = Number.isNaN(parsedLimit) ? undefined : parsedLimit;
+    const history = await lifecycleService.getCheckHistory(limit);
+
+    console.log(`[API] Lifecycle history requested (limit: ${limit || "default"})`);
 
     return res.json(history);
 });

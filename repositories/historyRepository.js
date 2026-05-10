@@ -63,14 +63,15 @@ async function saveCheck(result) {
 }
 
 // Retrieve previously saved lifecycle checks ordered by newest first
-async function getHistory() {
+async function getHistory(limit) {
     const database = await getDb();
 
     return database.all(`
         SELECT *
         FROM checks
         ORDER BY checked_at DESC
-    `);
+        LIMIT ?
+    `, [limit]);
 }
 
 export default { saveCheck, getHistory };

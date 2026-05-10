@@ -1,6 +1,9 @@
 import repository from "../repositories/mockRepository.js";
 import historyRepository from "../repositories/historyRepository.js";
 
+// Default number of lifecycle history records returned when no limit is provided
+const DEFAULT_HISTORY_LIMIT = 5;
+
 // Compare two dot-separated version strings numerically
 function compareVersions(installedVersion, suggestedRelease) {
     const installedParts = installedVersion.split(".").map(Number);
@@ -75,8 +78,8 @@ async function getLifecycleInfo(pid, installedVersion) {
     return result;
 }
 
-async function getCheckHistory() {
-    return historyRepository.getHistory();
+async function getCheckHistory(limit=DEFAULT_HISTORY_LIMIT) {
+    return historyRepository.getHistory(limit);
 }
 
 export default { getLifecycleInfo, getCheckHistory };
