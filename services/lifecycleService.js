@@ -79,7 +79,20 @@ async function getLifecycleInfo(pid, installedVersion) {
 }
 
 async function getCheckHistory(limit=DEFAULT_HISTORY_LIMIT) {
-    return historyRepository.getHistory(limit);
+    const history = await historyRepository.getHistory(limit);
+
+    return history.map((check) => ({
+        ...check,
+        checked_at: formatTimestamp(check.checked_at)
+    }));
+}
+
+// Format ISO timestamp into readable date and time
+function formatTimestamp(timestamp) {
+    return new Date(timestamp)
+        .toISOString()
+        .slice(0, 16)
+        .replace("T", " ");
 }
 
 export default { getLifecycleInfo, getCheckHistory };
