@@ -26,6 +26,18 @@ async function getDb() {
                 checked_at TEXT NOT NULL
             )
         `);
+
+        await db.exec(`
+            CREATE TABLE IF NOT EXISTS devices (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                hostname TEXT NOT NULL,
+                pid TEXT NOT NULL,
+                vendor TEXT DEFAULT 'Cisco',
+                location TEXT,
+                current_version TEXT,
+                created_at TEXT NOT NULL
+            )
+        `);
     }
 
     return db;
@@ -74,4 +86,5 @@ async function getHistory(limit) {
     `, [limit]);
 }
 
+export { getDb };
 export default { saveCheck, getHistory };

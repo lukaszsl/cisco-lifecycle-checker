@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="/styles.css" />
+        <title>Device Inventory</title>
+    </head>
+    <body>
+        <header>
+            <h1>Device Inventory</h1>
+        </header>
+
+        <main class="container">
+            <% if (typeof error !== "undefined") { %>
+                <p class="status status-outdated"><%= error %></p>
+            <% } %>
+
+            <form method="POST" action="/devices">
+                <div class="field">
+                    <label for="hostname">Hostname</label>
+                    <input id="hostname" name="hostname" required />
+                </div>
+
+                <div class="field">
+                    <label for="pid">Cisco PID</label>
+                    <input id="pid" name="pid" required />
+                </div>
+
+                <div class="field">
+                    <label for="vendor">Vendor</label>
+                    <input id="vendor" name="vendor" />
+                </div>
+
+                <div class="field">
+                    <label for="current_version">Current software version</label>
+                    <input id="current_version" name="current_version" />
+                </div>
+
+                <div class="field">
+                    <label for="location">Location</label>
+                    <input id="location" name="location" />
+                </div>
+
+                <button type="submit">Add Device</button>
+            </form> 
+
+            <% if (devices.length === 0) { %>
+                <p>No devices saved yet.</p>
+            <% } else { %>
+
+                <table>
+                    <caption>Saved devices</caption>
+                    <thead>
+                        <tr>
+                            <th>Hostname</th>
+                            <th>PID</th>
+                            <th>Vendor</th>
+                            <th>Version</th>
+                            <th>Location</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% devices.forEach((device) => { %>
+                            <tr>
+                                <td><%= device.hostname %></td>
+                                <td><%= device.pid %></td>
+                                <td><%= device.vendor %></td>
+                                <td><%= device.current_version || "N/A" %></td>
+                                <td><%= device.location || "N/A" %></td>
+                                <td><%= device.created_at %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+
+            <p>
+                <a href="/">Back to lifecycle checker</a>
+            </p>
+        </main>
+    </body>
+</html>
