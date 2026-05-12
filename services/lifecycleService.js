@@ -1,5 +1,6 @@
 import repository from "../repositories/mockRepository.js";
 import historyRepository from "../repositories/historyRepository.js";
+import { formatTimestamp } from "../utils/dateUtils.js";
 
 // Default number of lifecycle history records returned when no limit is provided
 const DEFAULT_HISTORY_LIMIT = 5;
@@ -25,7 +26,7 @@ function compareVersions(installedVersion, suggestedRelease) {
 // Compare installed version with suggested release and return simple status
 function evaluateVersionStatus(installedVersion, suggestedRelease) {
     if (!installedVersion || !suggestedRelease) return "UNKNOWN";
-    
+
     const comparison = compareVersions(installedVersion, suggestedRelease);
 
     if (comparison === 0) return "UP TO DATE";
@@ -65,7 +66,7 @@ async function getLifecycleInfo(pid, installedVersion) {
     const cleanInstalledVersion = installedVersion?.trim() || null;
     const suggestedRelease = softwareData?.suggested_release || null;
     const versionStatus = evaluateVersionStatus(cleanInstalledVersion, suggestedRelease);
-    
+
     const result = {
         ...eoxData,
         installed_version: cleanInstalledVersion,
@@ -78,21 +79,14 @@ async function getLifecycleInfo(pid, installedVersion) {
     return result;
 }
 
-async function getCheckHistory(limit=DEFAULT_HISTORY_LIMIT) {
+// Retrieve saved lifecycle history and format timestamps for display
+async function getCheckHistory(limit = DEFAULT_HISTORY_LIMIT) {
     const history = await historyRepository.getHistory(limit);
 
     return history.map((check) => ({
         ...check,
         checked_at: formatTimestamp(check.checked_at)
     }));
-}
-
-// Format ISO timestamp into readable date and time
-function formatTimestamp(timestamp) {
-    return new Date(timestamp)
-        .toISOString()
-        .slice(0, 16)
-        .replace("T", " ");
 }
 
 export default { getLifecycleInfo, getCheckHistory };

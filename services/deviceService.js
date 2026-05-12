@@ -1,4 +1,5 @@
 import deviceRepository from "../repositories/deviceRepository.js";
+import { formatTimestamp } from "../utils/dateUtils.js";
 
 // Validate required device inventory fields
 function validateDevice(device) {
@@ -18,7 +19,7 @@ async function addDevice(device) {
     const validationError = validateDevice(device);
 
     if (validationError) return { error: validationError };
-    
+
     await deviceRepository.createDevice({
         hostname: device.hostname.trim(),
         pid: device.pid.trim().toUpperCase(),
@@ -32,7 +33,12 @@ async function addDevice(device) {
 
 // Retrieve all saved inventory devices
 async function getDevices() {
-    return deviceRepository.getDevices();
+    const devices = await deviceRepository.getDevices();
+
+    return devices.map((device) => ({
+        ...device,
+        created_at: formatTimestamp(device.created_at)
+    }));
 }
 
 // Retrieve one saved inventory device by ID
