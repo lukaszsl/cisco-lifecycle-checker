@@ -35,4 +35,9 @@ async function getDevices() {
     return deviceRepository.getDevices();
 }
 
-export default { addDevice, getDevices };
+// Retrieve one saved inventory device by ID
+async function getDeviceById(id) {
+    return deviceRepository.getDeviceById(id);
+}
+
+export default { addDevice, getDevices, getDeviceById };

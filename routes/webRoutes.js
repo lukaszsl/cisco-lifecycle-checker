@@ -61,4 +61,25 @@ router.post("/devices", async (req, res) => {
     res.redirect("/devices");
 });
 
+// Run lifecycle check using saved inventory device data
+router.post("/devices/:id/check", async (req, res) => {
+    console.log(`[WEB] Lifecycle check requested for device ID: ${req.params.id}`);
+    
+    const device = await deviceService.getDeviceById(req.params.id);
+
+    if (!device) {
+        const devices = await deviceService.getDevices();
+        return res.render("devices", { devices, error: "Device not found" });
+    }
+
+    const result = await lifecycleService.getLifecycleInfo(
+        device.pid,
+        device.current_version
+    );
+
+    console.log(`[WEB] Lifecycle check completed for inventory device: ${device.hostname}`);
+
+    res.render("result", { result });
+});
+
 export default router;

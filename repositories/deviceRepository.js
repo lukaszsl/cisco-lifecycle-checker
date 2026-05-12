@@ -38,4 +38,15 @@ async function getDevices() {
     `);
 }
 
-export default { createDevice, getDevices };
+// Retrieve a single device from inventory by ID
+async function getDeviceById(id) {
+    const database = await getDb();
+
+    return database.get(`
+        SELECT *
+        FROM devices
+        WHERE id = ?
+    `, [id]);
+}
+
+export default { createDevice, getDevices, getDeviceById };

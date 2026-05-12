@@ -59,6 +59,7 @@
                             <th>Version</th>
                             <th>Location</th>
                             <th>Created At</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
 
@@ -71,6 +72,11 @@
                                 <td><%= device.current_version || "N/A" %></td>
                                 <td><%= device.location || "N/A" %></td>
                                 <td><%= device.created_at %></td>
+                                <td>
+                                    <form method="POST" action="/devices/<%= device.id %>/check">
+                                        <button type="submit">Check Lifecycle</button>
+                                    </form>
+                                </td>
                             </tr>
                         <% }) %>
                     </tbody>
@@ -79,6 +85,10 @@
 
             <p>
                 <a href="/">Back to lifecycle checker</a>
+            </p>
+
+            <p>
+                <a href="/history">View lifecycle check history</a>
             </p>
         </main>
     </body>
