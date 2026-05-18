@@ -47,7 +47,8 @@ async function getDb() {
 async function saveCheck(result) {
     const database = await getDb();
 
-    await database.run(`
+    await database.run(
+        `
         INSERT INTO checks (
             pid,
             product_name,
@@ -59,7 +60,8 @@ async function saveCheck(result) {
             version_status,
             checked_at
         ) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `,
         [
             result.pid,
             result.product_name,
@@ -78,13 +80,36 @@ async function saveCheck(result) {
 async function getHistory(limit) {
     const database = await getDb();
 
-    return database.all(`
+    return database.all(
+        `
         SELECT *
         FROM checks
         ORDER BY checked_at DESC
         LIMIT ?
-    `, [limit]);
+        `, 
+        [limit]
+    );
+}
+
+// Retrieve latest lifecycle check for a specific PID
+async function getLatestCheckByPid(pid) {
+    const database = await getDb();
+
+    return database.get(
+        `
+        SELECT *
+        FROM checks
+        WHERE pid = ?
+        ORDER BY checked_at DESC
+        LIMIT 1
+        `, 
+        [pid]
+    );
 }
 
 export { getDb };
-export default { saveCheck, getHistory };
+export default { 
+    saveCheck, 
+    getHistory, 
+    getLatestCheckByPid 
+};

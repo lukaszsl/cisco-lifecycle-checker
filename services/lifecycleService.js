@@ -89,4 +89,20 @@ async function getCheckHistory(limit = DEFAULT_HISTORY_LIMIT) {
     }));
 }
 
-export default { getLifecycleInfo, getCheckHistory };
+// Retrieve latest saved lifecycle check for a PID
+async function getLatestCheckByPid(pid) {
+    const check = await historyRepository.getLatestCheckByPid(pid);
+
+    if (!check) return null;
+
+    return {
+        ...check,
+        checked_at: formatTimestamp(check.checked_at)
+    };
+}
+
+export default { 
+    getLifecycleInfo, 
+    getCheckHistory,
+    getLatestCheckByPid
+};

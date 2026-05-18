@@ -32,8 +32,6 @@ router.get("/lifecycle", async (req, res) => {
 
 // Return saved lifecycle check history as JSON
 router.get("/history", async (req, res) => {
-    console.log("[API] Lifecycle history requested");
-
     const parsedLimit = Number(req.query.limit);
     const limit = Number.isNaN(parsedLimit) ? undefined : parsedLimit;
     const history = await lifecycleService.getCheckHistory(limit);
@@ -41,6 +39,23 @@ router.get("/history", async (req, res) => {
     console.log(`[API] Lifecycle history requested (limit: ${limit || "default"})`);
 
     return res.json(history);
+});
+
+// Return latest saved lifecycle check for a specific PID
+router.get("/latest-check/:pid", async (req, res) => {
+    console.log(`[API] Latest lifecycle check requested for PID: ${req.params.pid}`);
+
+    const check = await lifecycleService.getLatestCheckByPid(
+        req.params.pid
+    );
+
+    if (!check) {
+        return res.status(404).json({ error: "No checks found" });
+    }
+
+    console.log(`[API] Latest lifecycle check returned for PID: ${req.params.pid}`);
+
+    return res.json(check);
 });
 
 export default router;
