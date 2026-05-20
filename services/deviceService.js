@@ -1,4 +1,5 @@
 import deviceRepository from "../repositories/deviceRepository.js";
+import historyRepository from "../repositories/historyRepository.js";
 import { formatTimestamp } from "../utils/dateUtils.js";
 
 // Validate required device inventory fields
@@ -31,14 +32,25 @@ async function addDevice(device) {
     return { success: true };
 }
 
-// Retrieve all saved inventory devices
+// Retrieve all saved inventory devices with latest lifecycle status
 async function getDevices() {
     const devices = await deviceRepository.getDevices();
+    const enrichedDevices = [];
 
-    return devices.map((device) => ({
-        ...device,
-        created_at: formatTimestamp(device.created_at)
-    }));
+    for (const device of devices) {
+        const latestCheck = await historyRepository.getLatestCheckByPid(device.pid);
+
+        enrichedDevices.push({
+            ...device,
+            created_at: formatTimestamp(device.created_at),
+            latest_status: latestCheck?.version_status || "NEVER CHECKED",
+            last_checked: latestCheck
+                ? formatTimestamp(latestCheck.chacked_at)
+                : null
+        });
+    }
+
+    return enrichedDevices
 }
 
 // Retrieve one saved inventory device by ID

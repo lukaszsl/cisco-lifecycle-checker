@@ -57,6 +57,8 @@
                             <th>PID</th>
                             <th>Vendor</th>
                             <th>Version</th>
+                            <th>Latest Status</th>
+                            <th>Last Checked</th>
                             <th>Location</th>
                             <th>Created At</th>
                             <th>Actions</th>
@@ -70,6 +72,14 @@
                                 <td><%= device.pid %></td>
                                 <td><%= device.vendor %></td>
                                 <td><%= device.current_version || "N/A" %></td>
+                                <td class="status <%= 
+                                    device.latest_status === 'UP TO DATE' ? 'status-up-to-date' :
+                                    device.latest_status === 'OUTDATED' ? 'status-outdated' :
+                                    device.latest_status === 'NEWER THAN SUGGESTED' ? 'status-newer' :
+                                    'status-unknown'
+                                %>"> <%= device.latest_status %>
+                                </td>
+                                <td><%= device.last_checked || "N/A" %></td>
                                 <td><%= device.location || "N/A" %></td>
                                 <td><%= device.created_at %></td>
                                 <td>
